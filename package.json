@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "wormhole-gui",
   "private": true,
   "scripts": {
     "build": "nuxt build",

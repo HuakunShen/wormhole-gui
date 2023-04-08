@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "tauri-nuxt-template",
+    "productName": "wormhole-gui",
     "version": "0.1.0"
   },
   "tauri": {

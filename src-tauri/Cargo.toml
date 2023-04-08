@@ -1,11 +1,11 @@
 [package]
-name = "app"
+name = "wormhole-gui"
 version = "0.1.0"
-description = "A Tauri App"
+description = "Magic Wormhole GUI"
 authors = ["you"]
 license = ""
 repository = ""
-default-run = "app"
+default-run = "wormhole-gui"
 edition = "2021"
 rust-version = "1.59"
 
