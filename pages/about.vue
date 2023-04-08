@@ -39,11 +39,12 @@ const wormholeLink = "https://github.com/magic-wormhole/magic-wormhole";
 const wormholeRSLink = "https://github.com/magic-wormhole/magic-wormhole.rs";
 
 function copyLink(link: string) {
-  writeText(link);
-  ElMessage({
-    message: "Copied Link to Clipboard",
-    grouping: true,
-    type: "success",
+  writeText(link).then(() => {
+    ElMessage({
+      message: "Copied Link to Clipboard",
+      grouping: true,
+      type: "success",
+    });
   });
 }
 </script>
