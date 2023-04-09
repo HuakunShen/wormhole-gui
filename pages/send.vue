@@ -1,22 +1,21 @@
 <template>
   <NuxtLayout>
+    <el-input v-model="path" placeholder="File Path">
+      <template #prepend>
+        <el-button @click="chooseFile">Send File</el-button>
+      </template>
+      <template #append>
+        <el-button @click="chooseDirectory">Send Directory</el-button>
+      </template>
+    </el-input>
+    <br /><br />
     <el-row :gutter="10">
-      <el-col :span="8"
-        ><el-button style="width: 100%" @click="sendFile" type="primary" text bg
-          >Send File</el-button
+      <el-col :span="12"
+        ><el-button style="width: 100%" @click="send" type="primary" text bg
+          >Send</el-button
         >
       </el-col>
-      <el-col :span="8"
-        ><el-button
-          style="width: 100%"
-          @click="sendDirectory"
-          type="primary"
-          text
-          bg
-          >Send Directory</el-button
-        ></el-col
-      >
-      <el-col :span="8"
+      <el-col :span="12"
         ><el-button type="primary" text bg style="width: 100%" @click="sendText"
           >Send Text</el-button
         ></el-col
@@ -38,9 +37,10 @@
 <script setup lang="ts">
 import { open } from "@tauri-apps/api/dialog";
 import { ElInput } from "element-plus";
-import { CopyDocument } from "@element-plus/icons-vue";
+import { CopyDocument, Search } from "@element-plus/icons-vue";
 import { writeText } from "@tauri-apps/api/clipboard";
 
+const path = ref("");
 const textarea = ref("");
 const receiveCode = ref("1-2-3");
 
@@ -54,17 +54,36 @@ function saveCodeToClipboard() {
   });
 }
 
-async function sendFile() {
+function send() {
+  ElMessage({
+    type: "success",
+    message: `Sending File`,
+  });
+}
+
+async function chooseFile() {
   const selected = await open({
     multiple: true,
   });
-  console.log(selected);
+  if (Array.isArray(selected)) {
+    path.value = selected[0];
+  } else if (selected === null) {
+    // user cancelled the selection
+  } else {
+    path.value = selected;
+  }
 }
-async function sendDirectory() {
+async function chooseDirectory() {
   const selected = await open({
     directory: true,
   });
-  console.log(selected);
+  if (Array.isArray(selected)) {
+    path.value = selected[0];
+  } else if (selected === null) {
+    // user cancelled the selection
+  } else {
+    path.value = selected;
+  }
 }
 
 const sendText = () => {

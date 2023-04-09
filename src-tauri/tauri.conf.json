@@ -21,8 +21,7 @@
         "sidecar": false
       },
       "clipboard": {
-        "all": false,
-        "readText": false,
+        "readText": true,
         "writeText": true
       },
       "dialog": {
