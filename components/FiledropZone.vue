@@ -18,7 +18,7 @@
           ></path>
         </svg>
         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-          <span class="font-semibold">Drag and Drop</span>
+          <span class="font-semibold">{{ $t('dragNDrop') }}</span>
         </p>
       </div>
     </label>

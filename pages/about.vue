@@ -1,31 +1,44 @@
 <template>
   <NuxtLayout>
-    <div>
-      <h3>About</h3>
-      <p>
-        This is a GUI for
-        <el-link @click="open(wormholeLink)">Magic Wormhole</el-link>, based on
-        <el-link @click="open(wormholeRSLink)">magic-wormhole.rs</el-link>.
-      </p>
-    </div>
-    <div>
-      <h3>Source Code</h3>
-      <el-link style="margin-right: 0.5rem" @click="open(sourceCodeLink)">{{
-        sourceCodeLink
-      }}</el-link>
-      <el-button
-        @click="copyLink(sourceCodeLink)"
-        :icon="CopyDocument"
-        circle
-      />
-    </div>
-    <div>
-      <h3>Author</h3>
-      <el-link style="margin-right: 0.5rem" @click="open(authorLink)"
-        >Huakun</el-link
-      >
-      <el-button @click="copyLink(authorLink)" :icon="CopyDocument" circle />
-    </div>
+    <p>
+      This is a GUI for
+      <el-link @click="open(wormholeLink)">Magic Wormhole</el-link>, based on
+      <el-link @click="open(wormholeRSLink)">magic-wormhole.rs</el-link>.
+    </p>
+    <el-descriptions class="margin-top" :column="1" :border="true">
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <user />
+            </el-icon>
+            {{ $t("author") }}
+          </div>
+        </template>
+        <el-link style="margin-right: 0.5rem" @click="open(authorLink)"
+          >Huakun</el-link
+        >
+        <el-button @click="copyLink(authorLink)" :icon="CopyDocument" circle />
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <iphone />
+            </el-icon>
+            {{ $t("sourceCode") }}
+          </div>
+        </template>
+        <el-link style="margin-right: 0.5rem" @click="open(sourceCodeLink)">{{
+          sourceCodeLink
+        }}</el-link>
+        <el-button
+          @click="copyLink(sourceCodeLink)"
+          :icon="CopyDocument"
+          circle
+        />
+      </el-descriptions-item>
+    </el-descriptions>
   </NuxtLayout>
 </template>
 <script setup lang="ts">

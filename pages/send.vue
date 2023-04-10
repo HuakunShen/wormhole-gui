@@ -7,27 +7,32 @@
           v-model="path"
           autosize
           type="textarea"
-          placeholder="File Path"
+          :placeholder="$t('filePath')"
           style="widht: 50%"
         />
         <el-row :gutter="10">
           <el-col :span="12"
             ><div class="grid-content ep-bg-purple" />
-            <el-button style="width: 100%" @click="chooseFiles"
-              >Choose Files</el-button
-            ></el-col
+            <el-button style="width: 100%" @click="chooseFile">{{
+              $t("chooseFile")
+            }}</el-button></el-col
           >
           <el-col :span="12"
             ><div class="grid-content ep-bg-purple" />
-            <el-button style="width: 100%" @click="chooseDirectory"
-              >Choose Directory</el-button
-            ></el-col
+            <el-button style="width: 100%" @click="chooseDirectory">{{
+              $t("chooseFolder")
+            }}</el-button></el-col
           >
         </el-row>
         <el-row :gutter="10">
           <el-col :span="12"
-            ><el-button style="width: 100%" @click="send" type="primary" text bg
-              >Send</el-button
+            ><el-button
+              style="width: 100%"
+              @click="send"
+              type="primary"
+              text
+              bg
+              >{{ $t("send") }}</el-button
             >
           </el-col>
           <el-col :span="12"
@@ -37,7 +42,7 @@
               bg
               style="width: 100%"
               @click="sendText"
-              >Send Text</el-button
+              >{{ $t("sendText") }}</el-button
             ></el-col
           >
         </el-row>
@@ -56,7 +61,7 @@
       </div>
 
       <div class="flex-grow flex justify-center items-end">
-        <small class="">Drop a File to Upload</small>
+        <small class="">{{ $t("dropFileToUpload") }}</small>
       </div>
     </div>
   </NuxtLayout>
@@ -165,7 +170,7 @@ function send() {
     });
 }
 
-async function chooseFiles() {
+async function chooseFile() {
   const selected = await open({
     multiple: true,
   });

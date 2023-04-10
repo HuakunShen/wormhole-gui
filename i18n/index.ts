@@ -2,9 +2,8 @@
 import { NuxtI18nOptions } from "@nuxtjs/i18n";
 
 export default {
-  locales: ["en", "cn"],
-  defaultLocale: "en",
   vueI18n: {
+    legacy: false,
     locale: "en",
     messages: {
       en: {
@@ -19,6 +18,13 @@ export default {
         sourceCode: "Source Code",
         author: "Author",
         language: "Language",
+        chooseFile: "Choose File",
+        chooseFolder: "Choose Folder",
+        sendText: "Send Text",
+        dragNDrop: "Drag and Drop",
+        dropFileToUpload: "Drop a file to Upload",
+        filePath: "File Path",
+        defaultReceiveDir: "Receive Directory",
       },
       cn: {
         home: "首页",
@@ -32,6 +38,13 @@ export default {
         sourceCode: "源码",
         author: "作者",
         language: "语言",
+        chooseFile: "选择文件",
+        chooseFolder: "选择文件夹",
+        sendText: "发送文字",
+        dragNDrop: "拖拽文件",
+        dropFileToUpload: "拖拽文件上传",
+        filePath: "文件路径",
+        defaultReceiveDir: "默认接收文件夹",
       },
     },
   },
