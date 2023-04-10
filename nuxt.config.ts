@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   ssr: false, // SSR must be turned off
   css: ["@/assets/css/global.css"],
   modules: [
-    // "@nuxtjs/tailwindcss",
+    "@nuxtjs/tailwindcss",
     "@element-plus/nuxt",
     "@nuxtjs/i18n",
     "@nuxtjs/google-fonts",
@@ -30,5 +30,8 @@ export default defineNuxtConfig({
         ital: [100],
       },
     },
+  },
+  tailwindcss: {
+    exposeConfig: true,
   },
 });
