@@ -2,6 +2,7 @@
   <NuxtLayout>
     <div class="flex flex-col h-full justify-end">
       <div class="grid grid-cols-1 gap-3">
+        <el-progress v-if="progress" :percentage="progress" />
         <el-input
           v-model="path"
           autosize
@@ -62,6 +63,7 @@
 </template>
 <script setup lang="ts">
 import { open } from "@tauri-apps/api/dialog";
+import { invoke } from "@tauri-apps/api/tauri";
 import { ElInput } from "element-plus";
 import { CopyDocument } from "@element-plus/icons-vue";
 import { writeText } from "@tauri-apps/api/clipboard";
@@ -70,7 +72,14 @@ import { listen, UnlistenFn } from "@tauri-apps/api/event";
 let fileDropHoverUnlisten: UnlistenFn;
 let fileDropUnlisten: UnlistenFn;
 let fileDropCancelledUnlisten: UnlistenFn;
-let fileDropHoverFlag = ref(false);
+let wormholeCodeUnlisten: UnlistenFn;
+let sendProgressUnlisten: UnlistenFn;
+
+const fileDropHoverFlag = ref(false);
+const progress = ref<undefined | number>(undefined);
+const path = ref("");
+const textarea = ref("");
+const receiveCode = ref<string>("");
 
 onMounted(async () => {
   fileDropHoverUnlisten = await listen<string[]>(
@@ -93,18 +102,36 @@ onMounted(async () => {
       fileDropHoverFlag.value = false;
     }
   );
+  wormholeCodeUnlisten = await listen<{ code: string }>(
+    "wormhole://receive-code",
+    (event) => {
+      console.log(event);
+      receiveCode.value = event.payload.code;
+      writeText(receiveCode.value).then(() => {
+        ElMessage({
+          message: `Receive Code Saved to Clipboard`,
+          type: "success",
+        });
+      });
+    }
+  );
+  sendProgressUnlisten = await listen<{ sent: number; total: number }>(
+    "wormhole://progress",
+    (event) => {
+      console.log(event);
+      const { sent, total } = event.payload;
+      progress.value = (sent / total) * 100;
+    }
+  );
 });
 
 onUnmounted(() => {
-  console.log("unmounted");
   fileDropHoverUnlisten();
   fileDropUnlisten();
   fileDropCancelledUnlisten();
+  wormholeCodeUnlisten();
+  sendProgressUnlisten();
 });
-
-const path = ref("");
-const textarea = ref("");
-const receiveCode = ref("1-2-3");
 
 function saveCodeToClipboard() {
   writeText(receiveCode.value).then(() => {
@@ -117,10 +144,25 @@ function saveCodeToClipboard() {
 }
 
 function send() {
-  ElMessage({
-    type: "success",
-    message: `Sending File`,
-  });
+  if (path.value.length === 0) {
+    ElMessage({
+      type: "error",
+      message: `Please select a file`,
+    });
+    return;
+  }
+
+  invoke("send", { filepath: path.value })
+    .then(() => {
+      receiveCode.value = "";
+      ElMessage({
+        type: "success",
+        message: `Finished`,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 async function chooseFiles() {
