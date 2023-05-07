@@ -1,0 +1,51 @@
+// NuxtI18nOptions<unknown> | undefined
+import { NuxtI18nOptions } from "@nuxtjs/i18n";
+
+export default {
+  vueI18n: {
+    legacy: false,
+    locale: "en",
+    messages: {
+      en: {
+        home: "Home",
+        setting: "Setting",
+        about: "About",
+        send: "Send",
+        receive: "Receive",
+        receiveCode: "Receive Code",
+        theme: "Theme",
+        darkTheme: "Dark Theme",
+        sourceCode: "Source Code",
+        author: "Author",
+        language: "Language",
+        chooseFile: "Choose File",
+        chooseFolder: "Choose Folder",
+        sendText: "Send Text",
+        dragNDrop: "Drag and Drop",
+        dropFileToUpload: "Drop a file to Upload",
+        filePath: "File Path",
+        defaultReceiveDir: "Receive Directory",
+      },
+      cn: {
+        home: "首页",
+        setting: "设置",
+        about: "关于",
+        send: "发送",
+        receive: "接收",
+        receiveCode: "接收码",
+        theme: "主题",
+        darkTheme: "深色",
+        sourceCode: "源码",
+        author: "作者",
+        language: "语言",
+        chooseFile: "选择文件",
+        chooseFolder: "选择文件夹",
+        sendText: "发送文字",
+        dragNDrop: "拖拽文件",
+        dropFileToUpload: "拖拽文件上传",
+        filePath: "文件路径",
+        defaultReceiveDir: "默认接收文件夹",
+      },
+    },
+  },
+} as NuxtI18nOptions;
