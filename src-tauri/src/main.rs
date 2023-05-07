@@ -11,7 +11,7 @@ use magic_wormhole::{transfer, transit, Wormhole};
 use std::error::Error;
 use std::sync::Arc;
 use tauri::Manager;
-use wormhole_gui::{install_ctrlc_handler, produce_filename, send as send2};
+use wormhole_gui::{produce_filename, send as send2};
 
 // struct WormholeManager {
 //     app_handle: tauri::AppHandle,

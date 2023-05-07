@@ -1,54 +1,18 @@
-# Tauri + Nuxt 3 Template
+# Wormhole GUI
 
-This is a minimal template to combine Tauri and Nuxt 3.
+Wormhole GUI is a GUI for Magic wormhole. [rymdport](https://github.com/Jacalz/rymdport) is another GUI written in Golang.
 
-This template is constructed completely with official template from Tauri and Nuxt 3.
+This app is written in Rust + Tauri. 
 
-Tauri API has been verified to work with Nuxt, just make sure `ssr` is `false` in [nuxt.config.ts](./nuxt.config.ts). 
+## Release
 
-The code used to verify tauri API has been removed to keep the template as clean as possible. `@tauri-apps/api` has been installed though.
+1. Tag a commit and push the tag
+2. Wait until it's ready and publish the release
 
-## Usage
+## Updater
 
-You could click `Use this template` on GitHub, or simply make a copy of this repo. See the [Auto Script](#auto-script-for-generating-a-template) section for a auto template generation script.
+We use a static file for auto-update, which requires manual update. The static update file is on GitHub Gist.
 
-## Auto Script for Generating a Template
+https://gist.github.com/HuakunShen/90e678a9da2424388f0c89c8ca1767ac/edit
 
-This repo will not be always up to date with the latest nuxt and Tauri versions, so if you really want to use the latest version of Tauri and Nuxt, use the script below. The script is also avaialble at [./gen-tauri-nuxt.sh](./gen-tauri-nuxt.sh).
-
-Run it like this `./gen-tauri-nuxt.sh $YOUR_APP_NAME`.
-
-Or this, so you don't need to download or copy anything.
-
-```bash
-echo "YOUR_APP_NAME" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/HuakunShen/tauri-nuxt-template/main/gen-tauri-nuxt.sh)"
-```
-
-It's pretty much completely automatic, but you still need to interact with the shell script prompt. Make sure `npm run generate` is used instead of the default `npm run build`, run it and you will see.
-
-```bash
-# gen-tauri-nuxt.sh
-APP_NAME=$1
-if [ -z "$APP_NAME" ]; then
-    echo "Please provide the app name as the first argument"
-    read APP_NAME
-fi
-
-npx nuxi init $APP_NAME
-cd $APP_NAME
-npm i
-
-echo "// https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-    ssr: false // SSR must be turned off
-})" > nuxt.config.ts
-npm install --save-dev @tauri-apps/cli
-# use sed to add "tauri": "tauri" to package.json -> scripts
-sed -i '' 's/"postinstall": "nuxt prepare"/"postinstall": "nuxt prepare",\n    "tauri": "tauri"/g' package.json
-echo "\033[0;31m\nFor the following questions,\nkeep defaults for all questions except for the 'frontend build command'. \nUse 'npm run generate' \n\033[0m"
-npm run tauri init
-# need user interaction here
-# Keep defaults for all questions except for the frontend build command
-# use `npm run generate`
-npm install @tauri-apps/api
-```
+The content can be found in release artifact `latest.json`.
