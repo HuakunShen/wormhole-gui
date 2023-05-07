@@ -3,11 +3,13 @@
     windows_subsystem = "windows"
 )]
 
-use std::{path::PathBuf};
+use std::{path::PathBuf, str::FromStr};
 use async_std::fs::OpenOptions;
 use async_std::sync::{Condvar, Mutex};
 use color_eyre::eyre::Context;
 use magic_wormhole::{transfer, transit, Wormhole};
+use std::error::Error;
+use std::sync::Arc;
 use tauri::Manager;
 use wormhole_gui::{produce_filename, send as send2};
 
