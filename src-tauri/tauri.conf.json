@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "wormhole-gui",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "tauri": {
     "allowlist": {
@@ -75,7 +75,7 @@
       "active": true,
       "dialog": true,
       "endpoints": [
-        "https://tauri-wormhole-gui.vercel.app/update/{{target}}/{{current_version}}"
+        "https://gist.githubusercontent.com/HuakunShen/90e678a9da2424388f0c89c8ca1767ac/raw/9b2e769170672ca4f96aedd55847e08fd43097ea/wormhole-gui-update.json"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEUzMzkxMTMwNjQ2MzM1QTYKUldTbU5XTmtNQkU1NDloM0k3UjdqdWN5RTViMnd2MDBIdGhDZStHQkNYMVdKbXBJeEVYSmxaTE4K"
     },
