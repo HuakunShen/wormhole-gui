@@ -43,19 +43,20 @@ pub fn install_ctrlc_handler(
         })
     })
     .context("Error setting Ctrl-C handler")?;
-
-    Ok(move || {
+    let ret = move || {
         /* Transform the notification into a future that waits */
         let notifier = notifier.clone();
         async move {
-            let (lock, cvar) = &*notifier;
+            let (lock, cvar) = &*notifier; // get notifier content
             let mut started = lock.lock().await;
-            while !*started {
+            while !*started { // while not notified, keep waiting
                 started = cvar.wait(started).await;
             }
+            // exist the loop, means notified, started = true
         }
         .boxed()
-    })
+    };
+    Ok(ret)
 }
 
 
@@ -65,7 +66,7 @@ pub async fn send(
     file_path: &PathBuf,
     file_name: &OsStr,
     transit_abilities: transit::Abilities,
-    cancel_callback: impl Fn() -> futures::future::BoxFuture<'static, ()>,
+    cancel_callback: impl futures::Future<Output = ()>,
     progress_handler: impl Fn(u64, u64) + 'static,
 ) -> eyre::Result<()> {
     // let pb = create_progress_bar(0);
@@ -86,7 +87,8 @@ pub async fn send(
         //     // }
         //     // pb.set_position(sent);
         // },
-        cancel_callback(),
+        cancel_callback,
+        // futures::future::pending()
     )
     .await
     .context("Send process failed")?;
@@ -94,6 +96,8 @@ pub async fn send(
     Ok(())
 }
 
+
+// pub async fn receive()
 
 
 // pub async fn wormhole_send_file(filepath: &PathBuf) {

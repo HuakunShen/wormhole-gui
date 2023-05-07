@@ -2,7 +2,12 @@
   <NuxtLayout>
     <div class="flex flex-col h-full justify-end">
       <div class="grid grid-cols-1 gap-3">
-        <el-progress v-if="progress" :percentage="progress" />
+        <div class="flex" v-if="progress">
+          <el-progress class="grow" :percentage="progress" />
+          <div class="flex-none">
+            {{ `${progressSizeStr} [${mbps ?? 0}MB/s]` }}
+          </div>
+        </div>
         <el-input
           v-model="path"
           autosize
@@ -73,6 +78,7 @@ import { ElInput } from "element-plus";
 import { CopyDocument } from "@element-plus/icons-vue";
 import { writeText } from "@tauri-apps/api/clipboard";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
+import bytes from "bytes";
 
 let fileDropHoverUnlisten: UnlistenFn;
 let fileDropUnlisten: UnlistenFn;
@@ -82,6 +88,9 @@ let sendProgressUnlisten: UnlistenFn;
 
 const fileDropHoverFlag = ref(false);
 const progress = ref<undefined | number>(undefined);
+const mbps = ref(0);
+let sendStartTime: undefined | number = undefined;
+let progressSizeStr = "/";
 const path = ref("");
 const textarea = ref("");
 const receiveCode = ref<string>("");
@@ -110,7 +119,6 @@ onMounted(async () => {
   wormholeCodeUnlisten = await listen<{ code: string }>(
     "wormhole://receive-code",
     (event) => {
-      console.log(event);
       receiveCode.value = event.payload.code;
       writeText(receiveCode.value).then(() => {
         ElMessage({
@@ -123,9 +131,15 @@ onMounted(async () => {
   sendProgressUnlisten = await listen<{ sent: number; total: number }>(
     "wormhole://progress",
     (event) => {
-      console.log(event);
+      if (!sendStartTime) {
+        sendStartTime = Date.now();
+      }
       const { sent, total } = event.payload;
-      progress.value = (sent / total) * 100;
+      progress.value = Math.round((sent / total) * 100);
+      const timeUsed = Math.round((Date.now() - sendStartTime) / 1000);
+      const megabytesSent = sent / 1000000;
+      progressSizeStr = `${bytes(sent)}/${bytes(total)}`;
+      mbps.value = Math.round((megabytesSent * 100) / timeUsed) / 100;
     }
   );
 });
@@ -156,7 +170,6 @@ function send() {
     });
     return;
   }
-
   invoke("send", { filepath: path.value })
     .then(() => {
       receiveCode.value = "";
@@ -164,9 +177,11 @@ function send() {
         type: "success",
         message: `Finished`,
       });
+      sendStartTime = undefined;
     })
     .catch((err) => {
       console.log(err);
+      sendStartTime = undefined;
     });
 }
 

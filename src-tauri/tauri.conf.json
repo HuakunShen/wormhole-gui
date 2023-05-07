@@ -13,11 +13,13 @@
   "tauri": {
     "allowlist": {
       "all": false,
+      "path": {
+        "all": true
+      },
       "shell": {
         "all": false,
         "execute": false,
-        "open": true,
-        "scope": [],
+        "open": "^.+",
         "sidecar": false
       },
       "clipboard": {
@@ -70,7 +72,12 @@
       "csp": null
     },
     "updater": {
-      "active": false
+      "active": true,
+      "dialog": true,
+      "endpoints": [
+        "https://tauri-wormhole-gui.vercel.app/update/{{target}}/{{current_version}}"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEUzMzkxMTMwNjQ2MzM1QTYKUldTbU5XTmtNQkU1NDloM0k3UjdqdWN5RTViMnd2MDBIdGhDZStHQkNYMVdKbXBJeEVYSmxaTE4K"
     },
     "windows": [
       {
