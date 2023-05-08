@@ -112,11 +112,17 @@ async fn send(
     let transit_abilities = transit::Abilities::ALL_ABILITIES;
     // impl Fn() -> Pin<Box<dyn Future<Output = ...> + Send>> + CLone
     // let ctrl_c = install_ctrlc_handler().unwrap();
+    let t = std::cell::Cell::new(std::time::Instant::now());
+    let interval = std::time::Duration::from_millis(300);
+
     let progress_handler = move |sent, total| {
+        if t.get().elapsed() < interval && sent != total {
+            return;
+        }
+        t.set(std::time::Instant::now());
         main_window
             .emit("wormhole://progress", Progress { sent, total })
             .unwrap();
-        // println!("{} / {}", sent, total);
     };
     send2(
         wormhole,
