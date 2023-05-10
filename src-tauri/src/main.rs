@@ -3,12 +3,11 @@
     windows_subsystem = "windows"
 )]
 
-use std::{path::PathBuf, str::FromStr};
 use async_std::fs::OpenOptions;
 use async_std::sync::{Condvar, Mutex};
 use color_eyre::eyre::Context;
 use magic_wormhole::{transfer, transit, Wormhole};
-use std::error::Error;
+use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::Manager;
 use wormhole_gui::{produce_filename, send as send2};
@@ -174,11 +173,17 @@ async fn receive(
     .unwrap();
 
     let main_window = app_handle.get_window("main").unwrap();
+    let t = std::cell::Cell::new(std::time::Instant::now());
+    let interval = std::time::Duration::from_millis(300);
+
     let progress_handler = move |sent, total| {
+        if t.get().elapsed() < interval && sent != total {
+            return;
+        }
+        t.set(std::time::Instant::now());
         main_window
             .emit("wormhole://progress", Progress { sent, total })
             .unwrap();
-        // println!("{} / {}", sent, total);
     };
 
     let req_filename = req.filename.file_name().unwrap();
