@@ -188,6 +188,7 @@ function send() {
 async function chooseFile() {
   const selected = await open({
     multiple: true,
+    title: "Choose File"
   });
   if (Array.isArray(selected)) {
     path.value = selected[0];
@@ -200,6 +201,7 @@ async function chooseFile() {
 async function chooseDirectory() {
   const selected = await open({
     directory: true,
+    title: "Choose Directory"
   });
   if (Array.isArray(selected)) {
     path.value = selected[0];
