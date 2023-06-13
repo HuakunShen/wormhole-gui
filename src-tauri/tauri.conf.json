@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Wormhole-GUI",
-    "version": "0.1.6-beta0"
+    "version": "0.1.6"
   },
   "tauri": {
     "allowlist": {
@@ -50,7 +50,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.nuxt",
+      "identifier": "tech.huakun.wormhole-gui",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
